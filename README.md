@@ -2,12 +2,6 @@
 
 This program generates and runs a state machine, based on given input files.
 
-### Future work:
-
-- [ ] Remove _Main_ flag
-- [ ] Add _Null_ flag (default fallthrough)
-- [ ] Implement regex support for input tape
-
 ### Example (basic):
 
 ```json

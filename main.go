@@ -2,14 +2,14 @@ package main
 
 /*
 	Prog: Generate and run state machine
-	Vers: 1.0
+	Vers: 1.1
 	Auth: Thijs Haker
 */
 
 import (
 	"encoding/json"
 	"flag"
-	"log"
+	"fmt"
 	"os"
 	"strings"
 )
@@ -53,12 +53,14 @@ func runProgram(text Dict, data Tape, cState string) {
 	for _, in := range data {
 		if cState != STATE_HALT {
 			if stateMap, routable = text[cState]; !routable {
-				log.Fatalf(FMT_SHORT, cState, STATE_NULL)
+				fmt.Printf(FMT_SHORT, cState, STATE_NULL)
+				os.Exit(0)
 			}
 			if nState, routable = stateMap[in]; !routable {
-				log.Fatalf(FMT_BASIC, cState, in, STATE_NULL)
+				fmt.Printf(FMT_BASIC, cState, in, STATE_NULL)
+				os.Exit(0)
 			}
-			log.Printf(FMT_BASIC, cState, in, nState)
+			fmt.Printf(FMT_BASIC, cState, in, nState)
 			cState = nState
 			continue
 		}
@@ -84,10 +86,10 @@ func main() {
 	flag.Parse()
 
 	if text, err = loadText(*textPath); err != nil {
-		log.Panicln(err)
+		panic(err)
 	}
 	if data, err = loadData(*dataPath); err != nil {
-		log.Panicln(err)
+		panic(err)
 	}
 
 	runProgram(text, data, *mainState)
